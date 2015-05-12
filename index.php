@@ -29,11 +29,21 @@ $app->get('/', function() {
 
 $app->get('/times', function() use ($resultRepo) {
     $results = $resultRepo->findAll();
-    echo json_encode($results);
+    $times = array();
+    foreach ($results as $result)
+    {
+        $times[] = $result->jsonSerialize();
+    }
+    echo json_encode($times);
 });
 
 $app->get('/users', function() use ($userRepo) {
-    $users = $userRepo->findAll();
+    $results = $userRepo->findAll();
+    $users = array();
+    foreach ($results as $result)
+    {
+        $times[] = $result->jsonSerialize();
+    }
     echo json_encode($users);
 });
 
@@ -48,12 +58,17 @@ $app->post('/users', function() use ($app, $userRepo) {
 
 $app->get('/users/:username', function($username) use ($userRepo) {
     $user = $userRepo->find($username);
-    echo json_encode($user);
+    echo json_encode($user->jsonSerialize());
 });
 
 $app->get('/users/:username/times', function($username) use ($resultRepo) {
     $results = $resultRepo->findAll($username);
-    echo json_encode($results);
+    $times = array();
+    foreach ($results as $result)
+    {
+        $times[] = $result->jsonSerialize();
+    }
+    echo json_encode($times);
 });
 
 $app->post('/users/:username/times', function($username) use ($app, $userRepo, $resultRepo) {
