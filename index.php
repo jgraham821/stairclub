@@ -42,7 +42,7 @@ $app->get('/users', function() use ($userRepo) {
     $users = array();
     foreach ($results as $result)
     {
-        $times[] = $result->jsonSerialize();
+        $users[] = $result->jsonSerialize();
     }
     echo json_encode($users);
 });
