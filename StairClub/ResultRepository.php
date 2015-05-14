@@ -29,13 +29,49 @@ class ResultRepository
 		return new \Result($username, $result);
 	}
 
-	public function findAll()
+	public function findTop5()
 	{
-		$stmt = $this->_connection->prepare('
+		$sql = '
+			SELECT username, count(*) AS total 
+			FROM result 
+			JOIN user ON (user.id = result.user_id)
+			GROUP BY user_id 
+			ORDER BY total desc
+		';
+
+		$stmt = $this->_connection->prepare($sql);
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function findAll(array $params = array())
+	{
+		$sql = '
 			SELECT user.username, result.*
 			FROM result
 			JOIN user ON (result.user_id = user.id)
-		');
+		';
+
+		if (isset($params['username']))
+		{
+			$sql.= " WHERE user.username = '" . $params['username'] . "'";
+		}
+
+		if (isset($params['order_by']))
+		{
+			$sql.= ' ORDER BY ' . $params['order_by'];
+			if (isset($params['order']))
+			{
+				$sql.= ' ' . $params['order'];
+			}
+		}
+
+		if (isset($params['limit']))
+		{
+			$sql.= ' LIMIT ' . $params['limit'];
+		}
+
+		$stmt = $this->_connection->prepare($sql);
 
 		$stmt->execute();
 
@@ -57,13 +93,14 @@ class ResultRepository
 
 		$stmt = $this->_connection->prepare('
 			INSERT INTO result
-				(user_id, time)
+				(user_id, time, date)
 			VALUES
-				(?, ?)
+				(?, ?, ?)
 		');
 
 		$stmt->bindParam(1, $user->getId());
 		$stmt->bindParam(2, $result->getTime());
+		$stmt->bindParam(3, $result->getDate());
 
 		return $stmt->execute();
 	}

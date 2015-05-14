@@ -1,9 +1,13 @@
 <?php
+// Set default timezone.
+date_default_timezone_set('America/New_York');
 
 // Create the db connection.
 $connection = null;
 try {
-    $connection = new PDO('mysql:host=localhost;dbname=stairclub', 'stairclub', 'stairclub');
+    require 'init_db.php';
+
+    $connection = new PDO($db_dsn, $db_username, $db_password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // run queries...
 } catch (PDOException $ex) {
@@ -14,9 +18,12 @@ require 'StairClub/User.php';
 require 'StairClub/UserRepository.php';
 require 'StairClub/Result.php';
 require 'StairClub/ResultRepository.php';
+require 'StairClub/Route.php';
+require 'StairClub/RouteRepository.php';
 
 $userRepo   = new \Repository\UserRepsository($connection);
 $resultRepo = new \Repository\ResultRepository($connection);
+$routeRepo  = new \Repository\RouteRepository($connection);
 
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
@@ -24,17 +31,35 @@ require 'Slim/Slim.php';
 $app = new \Slim\Slim();
 
 $app->get('/', function() {
-    echo 'Stair Club Leader Board!';
+    require 'results.php';
 });
 
-$app->get('/times', function() use ($resultRepo) {
-    $results = $resultRepo->findAll();
+$app->get('/routes', function() use ($routeRepo) {
+    $results = $routeRepo->findAll();
+    $routes = array();
+    foreach ($results as $result)
+    {
+        $routes[] = $result->jsonSerialize();
+    }
+    echo json_encode($routes);
+});
+
+$app->get('/times', function() use ($app, $resultRepo) {
+    $req = $app->request();
+    $params = $req->params();
+
+    $results = $resultRepo->findAll($params);
     $times = array();
     foreach ($results as $result)
     {
         $times[] = $result->jsonSerialize();
     }
     echo json_encode($times);
+});
+
+$app->get('/times/top', function() use ($resultRepo) {
+    $results = $resultRepo->findTop5();
+    echo json_encode($results);
 });
 
 $app->get('/users', function() use ($userRepo) {
@@ -62,7 +87,7 @@ $app->get('/users/:username', function($username) use ($userRepo) {
 });
 
 $app->get('/users/:username/times', function($username) use ($resultRepo) {
-    $results = $resultRepo->findAll($username);
+    $results = $resultRepo->findAll(array('username' => $username));
     $times = array();
     foreach ($results as $result)
     {
