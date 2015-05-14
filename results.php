@@ -3,9 +3,14 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<style>
-			td {
-				padding: 5px;
+			h1, h2, h3 {
+				text-align: center;
 			}
+
+			label {
+				margin-right: 5px;
+			}
+
 		</style>
 
 		<script type="text/javascript"
@@ -21,22 +26,21 @@
 	<body ng-app="myApp">
 		<div class="container">
 			<div id="top" style="margin-left:auto; margin-right:auto; width:700px;">
-				<img src="https://www.gsn.com/dynamic/images/skin/template/gsn_logo.jpg" />
-				<h1 style="display:inline; margin-left:50px;">GSN Stair Club!</h1>
-				<image src="<?php echo BASE_URL ?>/images/stairs.png" alt="GSN Stair Club"/>
+				<span style="margin-left:50px;">
+					<img src="https://www.gsn.com/dynamic/images/skin/template/gsn_logo.jpg" />
+					<h1 style="display:inline; margin-left:50px;">GSN Stair Club!</h1>
+					<image src="<?php echo BASE_URL ?>/images/stairs.png" alt="GSN Stair Club" style="position: relative; left: -25px; z-index:-1;"/>
+				</span>
 			</div>
-			<div ng-controller="resultsCtrl" style="margin-left:auto; margin-right:auto; width:550px;" >
+			<div ng-controller="resultsCtrl" style="margin-left:auto; margin-right:auto; width:850px;" >
 				<div style="float:left">
-					<h2>Top 5 Times</h2>
-					<table>
-						<thead>
-							<tr>
-								<td>Username</td>
-								<td>Time</td>
-								<td>Date</td>
-							</tr>
-						</thead>
-
+					<h3>Top 5 Times</h3>
+					<table style="width: 400px;" class="table table-bordered table-hover table-striped text-center">
+						<tr>
+							<td><strong>Username</strong></td>
+							<td><strong>Time</strong></td>
+							<td><strong>Date</strong></td>
+						</tr>
 						<tr ng-repeat="result in topTimes">
 							<td>{{result.username}}</td>
 							<td>{{ result.time | convertSeconds }}</td>
@@ -46,14 +50,12 @@
 				</div>
 
 				<div style="float:left; margin-left:50px;">
-					<h2>Top 5 Climbers</h2>
-					<table>
-						<thead>
-							<tr>
-								<td>Username</td>
-								<td>Climbs</td>
-							</tr>
-						</thead>
+					<h3>Top 5 Climbers</h3>
+					<table style="width: 400px;" class="table table-bordered table-hover table-striped text-center">
+						<tr>
+							<td><strong>Username</strong></td>
+							<td><strong>Climbs</strong></td>
+						</tr>
 
 						<tr ng-repeat="climber in topClimbers">
 							<td>{{climber.username}}</td>
@@ -65,26 +67,30 @@
 
 			<br>
 
-			<div ng-controller="submitCtrl" style="clear: both; margin-left: auto; margin-right: auto; width: 50%; padding-top:50px;">
-				<h2 style="margin-left:auto; margin-right:auto; width:250px;">Submit A Time</h2>
+			<div ng-controller="submitCtrl" style="clear: both; margin-left: auto; margin-right: auto; width: 750; padding-top:50px;">
+				<h3 style="margin-left:auto; margin-right:auto; width:250px;">Submit A Time</h3>
 				
-				Username <input type="text" ng-model="username">
+				<form class="form-inline" style="margin-left:auto; margin-right:auto; width:755px;">
+					<label for="username">Username: </label><input type="text" ng-model="username" class="form-control">
 
-				Time <input type="text" ng-model="time">
-				
-				<button ng-click="submit()">Submit!</button><br>
-				
-				<p><span ng-show="submitted && submitSuccess">Success</span><span ng-show="submitted && !submitSuccess">Failed</span>
+					<label for="minutes">Mins: </label><input type="text" ng-model="minutes" class="form-control">
+
+					<label for="seconds">Sec: </label><input type="text" ng-model="seconds" class="form-control">
+					
+					<button ng-click="submit()" class="btn btn-primary">Submit!</button><br>
+				</form>
 			</div>
 
-			<div ng-controller="lookupCtrl" style="clear: both; margin-left: auto; margin-right: auto; width: 50%; padding-top:50px;">
-				<h2 style="margin-left:auto; margin-right:auto; width:250px;">Lookup Times</h2>
+			<div ng-controller="lookupCtrl" style="clear: both; margin-left: auto; margin-right: auto; width: 700px; padding-top:50px;">
+				<h3>Lookup Times</h3>
 				
-				Username <input type="text" ng-model="username">
-			
-				<button ng-click="submit()">Submit!</button><br>
-				
-				<p><span ng-show="submitted && submitSuccess">Success</span><span ng-show="submitted && !submitSuccess">Failed</span>
+				<form class="form-inline" class="form-inline" style="margin-left:auto; margin-right:auto; width:755px;">
+					<span style="margin-left:195px;"><label for="username">Username: </label><input type="text" ng-model="username" class="form-control"><span>
+
+					<button ng-click="submit()" class="btn btn-default">Lookup!</button><br>
+
+					<p><span ng-show="submitted && !submitSuccess">Submit Failed :( Sorry, please contact the Stair Club admins about this issue.</span>
+				</form>
 			</div>
 
 		</div>
@@ -101,7 +107,7 @@
 		angular.module('stairclubFilters', []).filter('convertSeconds', function() {
 		  return function(input) {
 		  	var minutes = Math.floor(input/60);
-		    var seconds = input % 60;
+		    var seconds = Math.floor(input % 60);
 		    var result = "";
 		    
 		    if (minutes > 0) {
@@ -134,9 +140,8 @@
 
 		app.controller('submitCtrl', function($scope, $http) {
 		    $scope.submit = function() {
-
 				$scope.submitted = false;
-
+				$scope.time = (parseInt($scope.minutes) * 60) + parseInt($scope.seconds);
 		    	var url = "<?php echo BASE_URL ?>/users/" + $scope.username + "/times";
 				var data = '{"time":' + $scope.time + '}';
 
