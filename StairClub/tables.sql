@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL auto_increment,
   `route_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `time` int(11) NOT NULL,
+  `time` decimal(8,3) NOT NULL,
   `date` DATETIME NOT NULL,
    PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
