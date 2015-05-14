@@ -98,12 +98,12 @@
 		var app = angular.module('myApp', ['stairclubFilters']);
 
 		app.controller('resultsCtrl', function($scope, $http) {
-		    $http.get("http://10.96.99.110/~jgraham/times?order_by=time&order=ASC&limit=5")
+		    $http.get("<?php echo BASE_URL ?>/times?order_by=time&order=ASC&limit=5")
     		.success(function(response) {
     			$scope.topTimes = response;
     		});
 
-    		$http.get("http://10.96.99.110/~jgraham/times/top")
+    		$http.get("<?php echo BASE_URL ?>/times/top")
     		.success(function(response) {
     			$scope.topClimbers = response;
     		});
@@ -114,7 +114,7 @@
 
 				$scope.submitted = false;
 
-		    	var url = "http://10.96.99.110/~jgraham/users/" + $scope.username + "/times";
+		    	var url = "<?php echo BASE_URL ?>/users/" + $scope.username + "/times";
 				var data = '{"time":' + $scope.time + '}';
 
 		    	$http.post(url, data)

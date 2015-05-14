@@ -5,9 +5,9 @@ date_default_timezone_set('America/New_York');
 // Create the db connection.
 $connection = null;
 try {
-    require 'init_db.php';
+    require 'init_config.php';
 
-    $connection = new PDO($db_dsn, $db_username, $db_password);
+    $connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // run queries...
 } catch (PDOException $ex) {

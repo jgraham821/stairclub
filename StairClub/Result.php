@@ -37,6 +37,11 @@ class Result
 
 	public function getDate()
 	{
+		return $this->_date;
+	}
+
+	public function getPrettyDate()
+	{
 		$date = new DateTime($this->_date);
 		return $date->format('M j @ g:i:s a');
 	}
@@ -47,7 +52,7 @@ class Result
         	'route_id' => $this->getRouteId(),
         	'username' => $this->getUsername(),
         	'time'     => $this->getTime(),
-        	'date'     => $this->getDate()
+        	'date'     => $this->getPrettyDate()
         );
     }
 }

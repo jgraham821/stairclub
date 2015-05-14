@@ -93,14 +93,15 @@ class ResultRepository
 
 		$stmt = $this->_connection->prepare('
 			INSERT INTO result
-				(user_id, time, date)
+				(user_id, route_id, time, date)
 			VALUES
-				(?, ?, ?)
+				(?, ?, ?, ?)
 		');
 
 		$stmt->bindParam(1, $user->getId());
-		$stmt->bindParam(2, $result->getTime());
-		$stmt->bindParam(3, $result->getDate());
+		$stmt->bindParam(2, $result->getRouteId());
+		$stmt->bindParam(3, $result->getTime());
+		$stmt->bindParam(4, $result->getDate());
 
 		return $stmt->execute();
 	}
