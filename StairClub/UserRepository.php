@@ -25,7 +25,19 @@ class UserRepsository
 		$stmt->execute();
 
 		$result = $stmt->fetch(PDO::FETCH_ASSOC);
-		return new \User($result);
+		$user = null;
+		if ($result === false)
+		{
+			$user = new \User(array('username' => $username));
+			$this->save($user);
+			$user = $this->find($username);
+		}
+		else
+		{
+			$user = new \User($result);
+		}
+
+		return $user;
 	}
 
 	public function findAll()

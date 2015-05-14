@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 	<head>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<style>
 			td {
 				padding: 5px;
 			}
 		</style>
+
+		<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
+
 	</head>
 	<body ng-app="myApp">
 		<div class="container">
 			<div id="top" style="margin-left:auto; margin-right:auto; width:700px;">
-				<img src="http://www.gsn.com/dynamic/images/skin/template/gsn_logo.jpg" />
+				<img src="https://www.gsn.com/dynamic/images/skin/template/gsn_logo.jpg" />
 				<h1 style="display:inline; margin-left:50px;">GSN Stair Club!</h1>
-				<image src="/~jgraham/images/stairs.png" alt="GSN Stair Club"/>
+				<image src="<?php echo BASE_URL ?>/images/stairs.png" alt="GSN Stair Club"/>
 			</div>
 			<div ng-controller="resultsCtrl" style="margin-left:auto; margin-right:auto; width:550px;" >
 				<div style="float:left">
@@ -66,10 +76,23 @@
 				
 				<p><span ng-show="submitted && submitSuccess">Success</span><span ng-show="submitted && !submitSuccess">Failed</span>
 			</div>
+
+			<div ng-controller="lookupCtrl" style="clear: both; margin-left: auto; margin-right: auto; width: 50%; padding-top:50px;">
+				<h2 style="margin-left:auto; margin-right:auto; width:250px;">Lookup Times</h2>
+				
+				Username <input type="text" ng-model="username">
+			
+				<button ng-click="submit()">Submit!</button><br>
+				
+				<p><span ng-show="submitted && submitSuccess">Success</span><span ng-show="submitted && !submitSuccess">Failed</span>
+			</div>
+
 		</div>
 
-		<div style="margin-left: auto; margin-right: auto; width:480px;">
-			<image src="/~jgraham/images/modes.jpg" alt="GSN Stair Club Modes">
+		<div id="curve_chart" style="margin-left: auto; margin-right: auto; width: 900px; height: 500px"></div>
+
+		<div style="margin-left: auto; margin-right: auto; width:480px; margin-top: 50px; margin-bottom: 50px;">
+			<image src="<?php echo BASE_URL ?>/images/modes.jpg" alt="GSN Stair Club Modes">
 		</div>
 
 		<script>
@@ -128,6 +151,34 @@
 		    		$scope.submitSuccess = false;
   				});
 		    };
+		});
+
+		app.controller('lookupCtrl', function($scope, $http) {
+			$scope.submit = function() { 
+				$scope.submitted = false;
+		    	var url = "<?php echo BASE_URL ?>/users/" + $scope.username + "/times";
+		    	$http.get(url)
+	    		.success(function(resultArray) {
+					var data = [["Date", "Time (min)"]];
+					for (i = 0; i < resultArray.length; i++) {
+			      		var timeResult = resultArray[i];
+			      		data[i + 1] = [timeResult.date, parseInt(timeResult.time) / 60];
+			      	}
+
+					// Draw the chart with that data.
+					var data = google.visualization.arrayToDataTable(data);
+
+					var options = {
+					  title: 'Stair Climb Times for ' + $scope.username,
+					  curveType: 'function',
+					  legend: { position: 'bottom' }
+					};
+
+					var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+					chart.draw(data, options);
+	    		});
+			};
 		});
 
 		</script>

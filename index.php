@@ -34,7 +34,7 @@ $app->get('/', function() {
     require 'results.php';
 });
 
-$app->get('/routes', function() use ($routeRepo) {
+$app->get('/routes/', function() use ($routeRepo) {
     $results = $routeRepo->findAll();
     $routes = array();
     foreach ($results as $result)
@@ -44,7 +44,7 @@ $app->get('/routes', function() use ($routeRepo) {
     echo json_encode($routes);
 });
 
-$app->get('/times', function() use ($app, $resultRepo) {
+$app->get('/times/', function() use ($app, $resultRepo) {
     $req = $app->request();
     $params = $req->params();
 
@@ -57,12 +57,12 @@ $app->get('/times', function() use ($app, $resultRepo) {
     echo json_encode($times);
 });
 
-$app->get('/times/top', function() use ($resultRepo) {
+$app->get('/times/top/', function() use ($resultRepo) {
     $results = $resultRepo->findTop5();
     echo json_encode($results);
 });
 
-$app->get('/users', function() use ($userRepo) {
+$app->get('/users/', function() use ($userRepo) {
     $results = $userRepo->findAll();
     $users = array();
     foreach ($results as $result)
@@ -72,7 +72,7 @@ $app->get('/users', function() use ($userRepo) {
     echo json_encode($users);
 });
 
-$app->post('/users', function() use ($app, $userRepo) {
+$app->post('/users/', function() use ($app, $userRepo) {
     $body = $app->request->getBody();
     $userData = json_decode($body, true);
     $user = new \User($userData);
@@ -81,12 +81,12 @@ $app->post('/users', function() use ($app, $userRepo) {
     echo json_encode($response);
 });
 
-$app->get('/users/:username', function($username) use ($userRepo) {
+$app->get('/users/:username/', function($username) use ($userRepo) {
     $user = $userRepo->find($username);
     echo json_encode($user->jsonSerialize());
 });
 
-$app->get('/users/:username/times', function($username) use ($resultRepo) {
+$app->get('/users/:username/times/', function($username) use ($resultRepo) {
     $results = $resultRepo->findAll(array('username' => $username));
     $times = array();
     foreach ($results as $result)
@@ -96,7 +96,7 @@ $app->get('/users/:username/times', function($username) use ($resultRepo) {
     echo json_encode($times);
 });
 
-$app->post('/users/:username/times', function($username) use ($app, $userRepo, $resultRepo) {
+$app->post('/users/:username/times/', function($username) use ($app, $userRepo, $resultRepo) {
     $body = $app->request->getBody();
     $resultData = json_decode($body, true);
     $user = $userRepo->find($username);

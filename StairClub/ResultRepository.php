@@ -37,6 +37,7 @@ class ResultRepository
 			JOIN user ON (user.id = result.user_id)
 			GROUP BY user_id 
 			ORDER BY total desc
+			LIMIT 5
 		';
 
 		$stmt = $this->_connection->prepare($sql);
