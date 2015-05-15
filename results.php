@@ -126,42 +126,47 @@
 
 			        <div id="instructions" class="tab-pane fade">
 			            <h3>Instructions</h3>
-			            <p><strong>Finding the stairs:</strong></p>
-						<ul>
-							<li>Take the elevator to the second floor.</li>
-							<li>Get off, head toward the Green Line Extension Project office.</li>
-							<li>Take hall to the right.</li>
-							<li>Go through the white door with the Exit sign above it.</li>
-							<li>On the 11th floor, you’ll need to scan your card to get out of the stairwell.</li>
-						</ul>
+			            <div style="margin-left:auto; margin-right:auto; width:450px;">
+				            <p><strong>Finding the stairs:</strong></p>
+							<ul>
+								<li>Take the elevator to the second floor.</li>
+								<li>Get off, head toward the Green Line Extension Project office.</li>
+								<li>Take hall to the right.</li>
+								<li>Go through the white door with the Exit sign above it.</li>
+								<li>On the 11th floor, you'll need to scan your card to get out of the stairwell.</li>
+							</ul>
 
-						<p><strong>Timing rules:</strong></p>
-						<ul>
-							<li>Get the app ready to go at the bottom of the stairs.</li>
-							<li>Both feet stay on the ground.</li>
-							<li>Take the first step when the timer starts.</li>
-							<li>Go through the white door with the Exit sign above it.</li>
-							<li>Stop the timer or scan the finish line tag when BOTH feet are on the top step.</li>
-						</ul>
+							<p><strong>Timing rules:</strong></p>
+							<ul>
+								<li>Get the app ready to go at the bottom of the stairs.</li>
+								<li>Both feet stay on the ground.</li>
+								<li>Take the first step when the timer starts.</li>
+								<li>Go through the white door with the Exit sign above it.</li>
+								<li>Stop the timer or scan the finish line tag when BOTH feet are on the top step.</li>
+							</ul>
+						</div>
 			        </div>
 			        <div id="faq" class="tab-pane fade">
 			            <h3>Frequently Asked Questions</h3>
-						<p><strong>Q:</strong> Can I wear a bag? Do I have to wear a bag?</p>
-						<p><strong>A:</strong>: Up to you. Most people submit times on their way into work, so they're carrying a backpack full of electronics. If enough people ask, we might add a With Bag/Without Bag division.</p>
+			           	<div style="margin-left:auto; margin-right:auto; width:450px;">
 
-						<br />
+							<p><strong>Q:</strong> Can I wear a bag? Do I have to wear a bag?</p>
+							<p><strong>A:</strong>: Up to you. Most people submit times on their way into work, so they're carrying a backpack full of electronics. If enough people ask, we might add a With Bag/Without Bag division.</p>
 
-						<p><strong>Q:</strong>: How do you make it all the way up? It’s, like, really far!</p>
-						<p><strong>A:</strong>: It sure is. You totally don’t have to run up. Slow and steady gets you there without dying. Find a pace that works, and try and keep it up for the whole trip. You don’t have to be the fastest, just faster than your last time.</p>
+							<br />
 
-						<br />
+							<p><strong>Q:</strong>: How do you make it all the way up? It's, like, really far!</p>
+							<p><strong>A:</strong>: It sure is. You totally don't have to run up. Slow and steady gets you there without dying. Find a pace that works, and try and keep it up for the whole trip. You don't have to be the fastest, just faster than your last time.</p>
 
-						<p><strong>Q:</strong>: Wait, there’s no way that time is legit! Someone’s cheating!</p>
-						<p><strong>A:</strong>: That wasn’t actually a question, but I get it. If you suspect shenanigans with the leaderboard, find the potential culprit, and challenge them to do it again (or at least come close). But really, this whole thing is for fun and on the honor system, so hopefully nobody’s a cheating cheater. But if there’s definitely a score that needs to come down, email Jason Graham, Jonathan Rubinger, or Chuck Alessi, and an electronic beatdown will be initiated (by removing the bad score).</p>
+							<br />
+
+							<p><strong>Q:</strong>: Wait, there's no way that time is legit! Someone's cheating!</p>
+							<p><strong>A:</strong>: That wasn't actually a question, but I get it. If you suspect shenanigans with the leaderboard, find the potential culprit, and challenge them to do it again (or at least come close). But really, this whole thing is for fun and on the honor system, so hopefully nobody's a cheating cheater. But if there's definitely a score that needs to come down, email Jason Graham, Jonathan Rubinger, or Chuck Alessi, and an electronic beatdown will be initiated (by removing the bad score).</p>
+						</div>
 			        </div>
 			        <div id="modes" class="tab-pane fade">
 			            <h3>Modes</h3>
-			            	<div style="margin-left: auto; margin-right: auto; width:480px; margin-top: 50px; margin-bottom: 50px;">
+			            	<div style="margin-left: auto; margin-right: auto; width:480px; margin-top:20px;">
 								<image src="<?php echo BASE_URL ?>/images/modes.jpg" alt="GSN Stair Club Modes">
 							</div>
 			        </div>
